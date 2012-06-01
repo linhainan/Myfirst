@@ -1,26 +1,27 @@
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class Rentinfo {
-	
+public class Saleinfo {
 
 	private String CDname;
 	private String CDid;
 	private int type;
 	private int num;
 	private double price;
-	final private String RentinfoTable = "RentInfo";
+	final private String SaleinfoTable = "SaleInfo";
+	ResultSet rs;
 	void init() throws Exception
 	{
 		init.connect();
-		init.ceatetable("create table IF not exists RentInfo"+
+		init.ceatetable("create table IF not exists SaleInfo"+
 				"(ListID varchar(20),"+
 				"CDname varchar(30),"+
 				"CDid varchar(20),"+
 				"type int,"+
 				"num int,"+
 				"price double,"+
-				"foreign key(ListID) references List(ListID));");
+				"foreign key(ListID) references List(ListID));");	
 	}
 	void saveinfo(CD tmp,String LID,int num) throws SQLException
 	{
@@ -29,9 +30,7 @@ public class Rentinfo {
 		this.type = tmp.gettype();
 		this.num = num;
 		this.price = tmp.getprice();
-		String sql = "insert into RentInfo "+"values("+LID+",'"+tmp.getname()+"','"+CDid+"',"+tmp.gettype()+","+num+","+tmp.getprice()+");";
+		String sql = "insert into SaleInfo "+"values("+LID+",'"+tmp.getname()+"','"+CDid+"',"+tmp.gettype()+","+num+","+tmp.getprice()+");";
 		init.stmtlist.addBatch(sql);
-
 	}
-
 }

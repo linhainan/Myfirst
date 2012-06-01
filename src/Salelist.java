@@ -72,27 +72,14 @@ public class Salelist extends List{
 		double price;
 	}
 	*/
-	ResultSet rs;
-	void init() throws Exception
-	{
-		init.connect();
-		init.ceatetable("create table IF not exists SaleInfo"+
-				"(ListID varchar(20),"+
-				"CDname varchar(30),"+
-				"CDid varchar(20),"+
-				"type int,"+
-				"num int,"+
-				"price double,"+
-				"foreign key(ListID) references List(ListID));");	
-	}
-	ResultSet add(String LID,String CDid,int num) throws Exception
+
+	Saleinfo add(String CDid,int num) throws Exception
 	{
 		CD tmp = new CD();
 		tmp = tmp.searchCD_byID(CDid,"sale");
 		tmp.delCD_byID(CDid, "sale", num);
-//		rs.next();
-		String sql = "insert into SaleInfo "+"values("+LID+",'"+tmp.getname()+"','"+CDid+"',"+tmp.gettype()+","+num+","+tmp.getprice()+");";
-		init.stmtlist.addBatch(sql);
-		return rs;
+		Saleinfo saleinfo = new Saleinfo();
+		saleinfo.saveinfo(tmp,super.getListID(),num);
+		return saleinfo;
 	}
 }

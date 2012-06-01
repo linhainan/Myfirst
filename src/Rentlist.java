@@ -100,17 +100,14 @@ public class Rentlist extends List{
 	private ArrayList<Rentinfo> Rentinfolist = new ArrayList<Rentinfo>();
 	ResultSet rs;
 
-	ResultSet add(String LID,String CDid,int num) throws Exception
+	Rentinfo add(String CDid,int num) throws Exception
 	{
 		CD tmp = new CD();
 		tmp = tmp.searchCD_byID(CDid,"rent");
 		tmp.delCD_byID(CDid, "rent", num);
-//		while(rs.next())
-		{
-			String sql = "insert into RentInfo "+"values("+LID+",'"+tmp.getname()+"','"+CDid+"',"+tmp.gettype()+","+num+","+tmp.getprice()+");";
-			init.stmtlist.addBatch(sql);
-		}
-		return rs;
+		Rentinfo rentinfo = new Rentinfo();
+		rentinfo.saveinfo(tmp,super.getListID(),num);
+		return rentinfo;
 	}
 	void delete(String LID,String CDid)
 	{

@@ -79,23 +79,34 @@ public class List {
 		this.price = rs.getDouble(4);
 		this.state = rs.getString(5);
 	}
-	void add(String ListID,int type,String CDid,int num) throws Exception
+	void create(String ListID,String custom,String date,String state) throws Exception
+	{
+		init.connect();
+		String sql = "insert into List values('"+ListID+"','"+custom+"',null,'"+state+"',0);";
+		init.stmt.execute(sql);
+	}
+/*	void add(String ListID,int type,String CDid,int num) throws Exception
 	{
 		init.connectlist();
 		switch(type)
 		{
 		case 0:
-			new Rentlist().add(ListID, CDid, num);
+			new Rentlist().add(CDid, num);
 			break;
 		case 1:
 			new Orderlist().add(ListID, CDid, num);
 			break;
 		case 2:
-			new Salelist().add(ListID, CDid, num);
+			new Salelist().add(CDid, num);
 		}
 	}
+	*/
 	void finish() throws SQLException
 	{
 		init.stmtlist.executeBatch();
+	}
+	String getListID()
+	{
+		return this.ListID;
 	}
 }

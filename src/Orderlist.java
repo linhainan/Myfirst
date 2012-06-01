@@ -3,35 +3,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class Orderlist {
-	ResultSet rs;
-	void init() throws Exception
-	{
-		init.connect();
+public class Orderlist extends List{
 
-		init.ceatetable("create table IF not exists OrderInfo"+
-				"(ListID varchar(20),"+
-				"CDname varchar(30),"+
-				"CDid varchar(20),"+
-				"type int,"+
-				"num int,"+
-				"curnum int," +
-				"foreign key(ListID) references List(ListID));");
-	}
-	ResultSet add(String LID,String CDid,int num) throws Exception
+	Orderinfo add(String LID,String CDid,int num) throws Exception
 	{
 		CD tmp = new CD();
 		tmp = tmp.searchCD_byID(CDid,"sale");
-//		tmp.delCD_byID(CDid, "sale", num);
-//		while(rs.next())
-		{
-			String sql = "insert into OrderInfo "+"values("+LID+",'"+tmp.getname()+"','"+CDid+"',"+tmp.gettype()+","+num+","+"0);";
-			init.stmtlist.addBatch(sql);
-		}
-		return rs;
+		Orderinfo orderinfo = new Orderinfo();
+		orderinfo.saveinfo(tmp, super.getListID(), num);
+		return orderinfo;
 	}
 	ResultSet searchCD(String CDid) throws Exception
 	{
+		ResultSet rs ;
 		init.connect();
 		rs = init.stmt.executeQuery("select * from OrderInfo where OrderInfo.CDid="+CDid+" and OrderInfo.curnum < OrderInfo.num");
 		return rs;
